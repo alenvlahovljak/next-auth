@@ -1,10 +1,20 @@
 import {FC} from "react"
+import {useSession, signOut} from "next-auth/client"
 
 import Link from 'next/link';
 
 import classes from './MainNavigation.module.css';
 
 const MainNavigation: FC = () => {
+    const [session, loading] = useSession()
+
+    console.log(loading)
+    console.log(session)
+
+    async function logoutHandler() {
+        await signOut()
+    }
+
     return (
         <header className={classes.header}>
             <Link href='/'>
@@ -14,15 +24,16 @@ const MainNavigation: FC = () => {
             </Link>
             <nav>
                 <ul>
-                    <li>
+                    {!session && !loading && <li>
                         <Link href='/auth'>Login</Link>
-                    </li>
-                    <li>
+                    </li>}
+                    {session && <li>
                         <Link href='/profile'>Profile</Link>
-                    </li>
-                    <li>
-                        <button>Logout</button>
-                    </li>
+                    </li>}
+
+                    {session && <li>
+                        <button onClick={logoutHandler}>Logout</button>
+                    </li>}
                 </ul>
             </nav>
         </header>

@@ -4,7 +4,7 @@ import {hashPassword} from "@/utils/auth"
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method != 'POST') {
-        return;
+        return res.status(404).json({})
     }
 
     const {email, password} = req.body
@@ -16,9 +16,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const client = await connect()
     const db = client.db()
 
-    const existingUser = db.collection('users').findOne({email})
+    const existingUser = await db.collection('users').findOne({email})
 
-    if(existingUser){
+
+    if (existingUser) {
         await client.close()
         return res.status(422).json({message: "User exists already!"})
     }
