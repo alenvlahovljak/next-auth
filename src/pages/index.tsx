@@ -1,14 +1,7 @@
-import Head from "next/head"
-import "../components/Hero"
-import { Hero } from "../components/Hero"
+import StartingPageContent from '../components/starting-page/starting-page';
 
-export default function Home() {
-  return (
-    <>
-    <Head>
-      <title>Home Page | Created with ❤️ by Elitizon Ltd</title>
-    </Head>
-      <Hero />
-    </>
-  )
+function HomePage() {
+  return <StartingPageContent />;
 }
+
+export default HomePage;
